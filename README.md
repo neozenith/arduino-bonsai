@@ -1,2 +1,36 @@
-# arduino-bonsai
-Over engineered desk plant to monitor and create datasets I care about.
+# Arduino Bonsai
+
+<img src="images/troy-treeshaker.jpg" alt="Troy the 2 year old Juniperus bonsai tree" style="float: right" width="192px" />
+
+I have been meaning to get a desk plant for a long time and I have always liked the
+aesthetics of bonsai trees being sculpted into living artworks.
+
+I have also been wanting to generate a dataset that I care about and have some sort
+of investment in to nurture my hobby interest of data science and data visualisation.
+
+So one day whilst I was installing tap timers and a drip irrigation system for my
+garden to optimize for the least effort to maintain I realised that with the 
+proliferation of hobby microcontrollers I could fuse those hobbies and have
+the most overengineered desk plant.
+
+I chose the Arduino MKR 1000 since it came in a beginners bundle, it is a very
+small form factor compared to the UNO or the Raspberry Pi and it came with a WiFi
+shield builtin.
+
+# Getting Started
+
+ 1. Download the [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+
+# Materials
+
+ - AU$124.91  [Arduino MKR IoT Bundle](https://store.arduino.cc/usa/arduino-iot-mkr1000-bundle)
+ - AU$ 15.86 (2x AU$7.93) [Soil Moisture Sensor (Arduino Compatible) Immersion Gold](https://core-electronics.com.au/soil-moisture-sensor-arduino-compatible-immersion-gold.html)
+ - AU$ 13.95 [Polymer Lithium Ion Battery (LiPo) 3.7V 1000mAh](https://core-electronics.com.au/polymer-lithium-ion-battery-1000mah-38458.html)
+ - AU$ 15.98 2015 3-inch Juniperus Squamata Prostrata bonsai
+ - AU$  1.25 150mm plastic saucer
+
+# Resources
+
+ - [Arduino](https://www.arduino.cc/en/Main/Software)
+ - [Core Electronics]()
+ -
