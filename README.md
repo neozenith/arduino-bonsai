@@ -34,7 +34,12 @@ in my head.
  1. Download the [Arduino IDE](https://www.arduino.cc/en/Main/Software)
  1. Follow the [MKR 1000 Getting Started Guide](https://www.arduino.cc/en/Guide/MKR1000)
  1. In the Arduino IDE go to Tools > Boards > Arduino/Genuino MKR1000
- 1. 
+ 1. I'm on macOS High Sierra 10.13.3 with USB-C -> USB-A hub. Under Tools > Ports the MKR 1000 came up as `/dev/cu.usbmodem14121 (Arduino/Genuino MKR1000)`. Select this.
+ 1. File > Examples > 01. Basics > Blink
+	- This is the _Hello World_ of Arduino and in particular pin6 is wired to an internal LED.
+	- Change the delays from the default 1000ms to something like 2000ms HIGH / 5000ms LOW to distinguish we applied new code and it isn't the existing program blinking at us.
+ 1. Verify
+ 1. Upload
 
 # Materials
 
