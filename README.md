@@ -4,7 +4,7 @@
 	src="images/troy-treeshaker.jpg" 
 	alt="Troy the 2 year old Juniperus bonsai tree" 
 	align="right" 
-	width="192px" 
+	width="384px" 
 />
 
 I have been meaning to get a desk plant for a long time and I have always liked the
