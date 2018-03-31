@@ -32,6 +32,9 @@ in my head.
 # Getting Started
 
  1. Download the [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+ 1. Follow the [MKR 1000 Getting Started Guide](https://www.arduino.cc/en/Guide/MKR1000)
+ 1. In the Arduino IDE go to Tools > Boards > Arduino/Genuino MKR1000
+ 1. 
 
 # Materials
 
@@ -46,5 +49,7 @@ TOTAL(so far): AU$ 171.95
 # Resources
 
  - [Arduino](https://www.arduino.cc/en/Main/Software)
- - [Core Electronics]()
- -
+ - [Core Electronics](https://core-electronics.com.au/tutorials)
+ 
+ - [Plant Monitor](https://www.youtube.com/watch?v=URv7bfEuxDg)
+ - [How to conserve battery life](https://core-electronics.com.au/videos/how-to-conserve-battery-life-with-iot-projects)
