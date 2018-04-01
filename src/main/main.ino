@@ -37,6 +37,10 @@ void loop() {
   float reading = analogRead(A0);
   lightLevel = (reading /1024.0)*100;
 
+  
+    analogWrite(A6, 255);  
+  
+
   Serial.println(lightLevel);
   
 }
