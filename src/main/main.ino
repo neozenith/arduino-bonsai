@@ -42,14 +42,29 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
   delay(5000);                       // wait for a second
 
+  // ------------------------------------------------------------
+  // TEMPERATURE
+  // ------------------------------------------------------------
+  // converting that reading to voltage, for 3.3v arduino use 3.3
+  float voltage = analogRead(A3) * 3.3;
+  voltage /= 1024.0; 
+ 
+  // now print out the temperature
+  float temperature = (voltage - 0.5) * 100 ;  //converting from 10 mv per degree wit 500 mV offset
+                                               //to degrees ((voltage - 500mV) times 100)
+  Serial.print("TEMP : ");
+  Serial.println(temperature);
+  
+
+  // ------------------------------------------------------------
+  // MOISTURE
+  // ------------------------------------------------------------
   float reading = analogRead(A0);
   moistureLevel = (reading);
   Serial.print("MOIST: ");
   Serial.println(moistureLevel);
   
-  temperature = analogRead(A3);
-  Serial.print("TEMP : ");
-  Serial.println(temperature);
+
 
   if (moistureLevel >= moistHigh){
     analogWrite(A5, 0);   // R
