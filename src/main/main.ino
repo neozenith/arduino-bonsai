@@ -52,14 +52,16 @@ void loop() {
   Serial.println(temperature);
 
   if (moistureLevel >= moistHigh){
-    analogWrite(A5, 0);  
-    analogWrite(A6, 0);
-    analogWrite(A4, 255);  
+    analogWrite(A5, 0);   // R
+    analogWrite(A4, 255); // G
+    analogWrite(A6, 0);   // B
+      
   } else if ( moistureLevel >= moistLow && moistureLevel < moistHigh) {
     
     analogWrite(A5, 0);  
-    analogWrite(A6, 255);
     analogWrite(A4, 0);  
+    analogWrite(A6, 255);
+    
   } else {
     analogWrite(A5, 255);  
     analogWrite(A6, 0);
