@@ -73,7 +73,26 @@ This also gives me a naming convention for when I want to add more plants to my 
 
 # Project
 
+Since Arduino is open source I'm going to do my best to keep this project and it's 
+stages as transparent as possible to enable others to learn and replicate.
 
+## Task Status
+
+ - Sensors
+		- [x] Moisture
+		- [x] Temperature
+		- [ ] Light
+ - Display	
+		- [x] LEDs
+		- [ ] LCD
+ - Cloud  / Network	
+		- [x] WiFi Connect to Network
+		- [ ] Local Network interface
+		- [ ] API endpoint to accumulate measurements (Heroku?)
+		- [ ] Transmit measurements via WiFi to API
+ - Power
+		- [x] Run off battery 
+		- [ ] Research battery saving techniques 
 
 # Materials
 

@@ -31,6 +31,8 @@ void setup() {
     delay(10000);
   }
   Serial.println("WiFi Connected!");
+	Serial.print("SSID: ");	Serial.println(WiFi.SSID());
+	Serial.print("IP: ");		Serial.println(WiFi.localIP());
 }
 
 // the loop function runs over and over again forever
