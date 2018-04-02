@@ -29,6 +29,8 @@ I have named it Terry after Terry Jeffords from [Brooklyn Nine-Nine](http://www.
 
 <a href="https://www.youtube.com/watch?v=3YXw3lbqjwk">
 <img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
+<br>
+Image links to YouTube
 </a>
 
 ----
