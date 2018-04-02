@@ -33,6 +33,8 @@ I have named it Terry after Terry Jeffords from [Brooklyn Nine-Nine](http://www.
 Image links to YouTube
 </a>
 
+This also gives me a naming convention for when I want to add more plants to my collection.
+
 ----
 
 # Getting Started
