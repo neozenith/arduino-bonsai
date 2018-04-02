@@ -25,9 +25,13 @@ shield builtin.
 I picked the Juniperus variety since they are evergreen and are the the most iconic 
 foliage coming from the coniferus family.
 
-I have named it Troy after Troy Landry from Swamp People since his catch phrase
-["Treeshaker! Treeshaker!"](https://www.youtube.com/watch?v=nCRbDQefxIg) got stuck
-in my head.
+I have named it Terry after Terry Jeffords from [Brooklyn Nine-Nine](http://www.imdb.com/title/tt2467372/).
+
+<a href="https://www.youtube.com/watch?v=3YXw3lbqjwk">
+<img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
+</a>
+
+----
 
 # Getting Started
 
@@ -61,6 +65,12 @@ in my head.
 
 [FirmwareUpdater](https://www.arduino.cc/en/Tutorial/FirmwareUpdater)
 
+----
+
+# Project
+
+
+
 # Materials
 
  - AU$124.91  [Arduino MKR IoT Bundle](https://store.arduino.cc/usa/arduino-iot-mkr1000-bundle) including postage from USA to AUS and international transaction fees.
@@ -75,6 +85,7 @@ TOTAL(so far): AU$ 171.95
 
  - [Arduino](https://www.arduino.cc/en/Main/Software)
  - [Core Electronics](https://core-electronics.com.au/tutorials)
+ - [Getting Started with MKR1000 by Dr. Charif Mahmoudi](https://create.arduino.cc/projecthub/charifmahmoudi/arduino-mkr1000-getting-started-08bb4a)
  
  - [Plant Monitor](https://www.youtube.com/watch?v=URv7bfEuxDg)
  - [How to conserve battery life](https://core-electronics.com.au/videos/how-to-conserve-battery-life-with-iot-projects)
