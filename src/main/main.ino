@@ -14,10 +14,17 @@ float moistLow = 340.0;
 
 float temperature;
 
+void setTriLED(int red, int green, int blue){
+
+    analogWrite(A5, red);   // R
+    analogWrite(A4, green); // G
+    analogWrite(A6, blue);   // B
+}
 
 // the setup function runs once when you press reset or power the board
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
+  setTriLED(255, 0, 255);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A3, INPUT);
   Serial.begin(115200);
@@ -30,9 +37,13 @@ void setup() {
     // Wait 10 sec to connect
     delay(10000);
   }
+  setTriLED(0, 255, 255);
+  delay(500);
   Serial.println("WiFi Connected!");
 	Serial.print("SSID: ");	Serial.println(WiFi.SSID());
-	Serial.print("IP: ");		Serial.println(WiFi.localIP());
+  IPAddress ip = WiFi.localIP();
+	Serial.print("IP: ");		Serial.println(ip);
+  
 }
 
 // the loop function runs over and over again forever
@@ -69,20 +80,11 @@ void loop() {
 
 
   if (moistureLevel >= moistHigh){
-    analogWrite(A5, 0);   // R
-    analogWrite(A4, 255); // G
-    analogWrite(A6, 0);   // B
-      
+     setTriLED(0, 255, 0); 
   } else if ( moistureLevel >= moistLow && moistureLevel < moistHigh) {
-    
-    analogWrite(A5, 0);  
-    analogWrite(A4, 0);  
-    analogWrite(A6, 255);
-    
+     setTriLED(0, 0, 255); 
   } else {
-    analogWrite(A5, 255);  
-    analogWrite(A6, 0);
-    analogWrite(A4, 0);   
+     setTriLED(255, 0, 0); 
   }
   
 
