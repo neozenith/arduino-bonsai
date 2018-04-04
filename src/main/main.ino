@@ -2,6 +2,7 @@
 // External libraries
 #include <SPI.h>
 #include <WiFi101.h>
+#include <LiquidCrystal.h>
 
 // Secure credentials
 #include "env.h"
@@ -16,17 +17,25 @@ float temperature;
 
 void setTriLED(int red, int green, int blue){
 
-    analogWrite(A5, red);   // R
+    analogWrite(A6, red);   // R
     analogWrite(A4, green); // G
-    analogWrite(A6, blue);   // B
+    analogWrite(A5, blue);   // B
 }
+
+LiquidCrystal lcd(12, 11, 6, 7, 8, 9);
 
 // the setup function runs once when you press reset or power the board
 void setup() {
+
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+  
   // initialize digital pin LED_BUILTIN as an output.
   setTriLED(255, 0, 255);
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(A3, INPUT);
+  pinMode(A1, INPUT);
   Serial.begin(115200);
 
   while (status != WL_CONNECTED){
@@ -59,7 +68,7 @@ void loop() {
   // TEMPERATURE
   // ------------------------------------------------------------
   // converting that reading to voltage, for 3.3v arduino use 3.3
-  float voltage = analogRead(A3) * 3.3;
+  float voltage = analogRead(A1) * 3.3;
   voltage /= 1024.0; 
  
   // now print out the temperature
