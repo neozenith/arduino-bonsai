@@ -76,6 +76,16 @@ This also gives me a naming convention for when I want to add more plants to my 
 Since Arduino is open source I'm going to do my best to keep this project and it's 
 stages as transparent as possible to enable others to learn and replicate.
 
+## Schematic
+
+As is standard in the Arduino community I am using the [Fritzing](http://fritzing.org/home/) 
+software to document the circuit designs.
+
+<img 
+	src="images/circuit_bb.svg" 
+	alt="Fritzing Schematic of Circuit design" 
+/>
+
 ## Task Status
 
  - Sensors
@@ -94,7 +104,7 @@ stages as transparent as possible to enable others to learn and replicate.
 		- [x] Run off battery 
 		- [ ] Research battery saving techniques 
 
-# Materials
+## Materials
 
  - AU$124.91  [Arduino MKR IoT Bundle](https://store.arduino.cc/usa/arduino-iot-mkr1000-bundle) including postage from USA to AUS and international transaction fees.
  - AU$ 15.86 (2x AU$7.93) [Soil Moisture Sensor (Arduino Compatible) Immersion Gold](https://core-electronics.com.au/soil-moisture-sensor-arduino-compatible-immersion-gold.html)
@@ -103,6 +113,9 @@ stages as transparent as possible to enable others to learn and replicate.
  - AU$  1.25 150mm plastic saucer
 
 TOTAL(so far): AU$ 171.95
+
+
+----
 
 # Resources
 
