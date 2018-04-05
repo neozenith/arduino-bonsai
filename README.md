@@ -46,15 +46,6 @@ This also gives me a naming convention for when I want to add more plants to my 
  1. In the Arduino IDE go to Tools > Boards > Arduino/Genuino MKR1000
  1. I'm on macOS High Sierra 10.13.3 with USB-C -> USB-A hub. Under Tools > Ports the MKR 1000 came up as `/dev/cu.usbmodem14121 (Arduino/Genuino MKR1000)`. Select this.
 
-
-## Blink LED
-
- 1. File > Examples > 01. Basics > Blink
-	- This is the _Hello World_ of Arduino and in particular pin6 is wired to an internal LED.
-	- Change the delays from the default 1000ms to something like 2000ms HIGH / 5000ms LOW to distinguish we applied new code and it isn't the existing program blinking at us.
- 1. Verify
- 1. Upload
-
 ## Update WiFi Firmware
 
 1. In the Arduino IDE Sketch > Include Library > Manage Libraries. Then in the search type `101`.
