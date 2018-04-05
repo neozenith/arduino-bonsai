@@ -86,13 +86,19 @@ software to document the circuit designs.
  - Display	
     - [x] LEDs
     - [ ] LCD
- - Cloud  / Network	
+ - Cloud  / Network
     - [x] WiFi Connect to Network
     - [ ] Local Network interface
     - [ ] API endpoint to accumulate measurements (Heroku?)
     - [ ] Transmit measurements via WiFi to API
+ - Security (The S in IoT)
+    - [ ] Transmission Security (HTTP/SSL)
+    - [ ] API Security - Certificate signed requests
+    - [ ] Plan for rolling out firmware updates
+    - [ ] Physical Device Security
  - Power
     - [x] Run off battery 
+    - [ ] Measure battery 
     - [ ] Research battery saving techniques 
 
 ## Materials
