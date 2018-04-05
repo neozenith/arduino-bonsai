@@ -89,20 +89,20 @@ software to document the circuit designs.
 ## Task Status
 
  - Sensors
-		- [x] Moisture
-		- [x] Temperature
-		- [ ] Light
+    - [x] Moisture
+    - [x] Temperature
+    - [ ] Light
  - Display	
-		- [x] LEDs
-		- [ ] LCD
+    - [x] LEDs
+    - [ ] LCD
  - Cloud  / Network	
-		- [x] WiFi Connect to Network
-		- [ ] Local Network interface
-		- [ ] API endpoint to accumulate measurements (Heroku?)
-		- [ ] Transmit measurements via WiFi to API
+    - [x] WiFi Connect to Network
+    - [ ] Local Network interface
+    - [ ] API endpoint to accumulate measurements (Heroku?)
+    - [ ] Transmit measurements via WiFi to API
  - Power
-		- [x] Run off battery 
-		- [ ] Research battery saving techniques 
+    - [x] Run off battery 
+    - [ ] Research battery saving techniques 
 
 ## Materials
 
