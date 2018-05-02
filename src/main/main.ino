@@ -4,14 +4,18 @@
 #include <WiFi101.h>
 #include <LiquidCrystal.h>
 
+// TODO: https://github.com/arduino-libraries/NTPClient
+// TODO: https://www.arduino.cc/en/Reference/WiFi101OTA
+
 // Secure credentials
 #include "env.h"
 
+int lastConnectionTime = 0;
 int status = WL_IDLE_STATUS;
 float moistureLevel;
-float mositMax = 780.0;
-float moistHigh = 640.0;
-float moistLow = 340.0;
+float moistMax = 780.0; // ~ 3.7V 100% moisture, 
+float moistHigh = 585.0; // 75% moisture
+float moistLow = 390.0; // 50% moisture
 
 float temperature;
 
@@ -22,15 +26,9 @@ void setTriLED(int red, int green, int blue){
     analogWrite(A5, blue);   // B
 }
 
-LiquidCrystal lcd(12, 11, 6, 7, 8, 9);
-
+/*__________________________________________________________SETUP__________________________________________________________*/
 // the setup function runs once when you press reset or power the board
 void setup() {
-
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("hello, world!");
   
   // initialize digital pin LED_BUILTIN as an output.
   setTriLED(255, 0, 255);
@@ -38,8 +36,21 @@ void setup() {
   pinMode(A1, INPUT);
   Serial.begin(115200);
 
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  LiquidCrystal lcd(12, 11, 6, 7, 8, 9);
+  // Switch on the LCD screen
+  lcd.begin(16, 2);
+  // Print these words to my LCD screen
+  lcd.print("Starting up...");
+
   while (status != WL_CONNECTED){
     Serial.print("Attempting to connect to SSID:"); 
+    lcd.print("Wifi:");
     Serial.println(ssid);  
     status = WiFi.begin(ssid, password);
 
@@ -48,6 +59,7 @@ void setup() {
   }
   setTriLED(0, 255, 255);
   delay(500);
+  
   Serial.println("WiFi Connected!");
 	Serial.print("SSID: ");	Serial.println(WiFi.SSID());
   IPAddress ip = WiFi.localIP();
@@ -55,9 +67,19 @@ void setup() {
   
 }
 
+/*__________________________________________________________LOOP__________________________________________________________*/
+
 // the loop function runs over and over again forever
 void loop() {
 
+  int timestamp = millis();
+  Serial.print("Timestamp:"); Serial.println(timestamp);
+
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
+  
   // Create a 'heart beat' for when readings are taken.
   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(500);                       // wait for a second
@@ -83,10 +105,6 @@ void loop() {
   // ------------------------------------------------------------
   float reading = analogRead(A0);
   moistureLevel = (reading);
-  Serial.print("MOIST: ");
-  Serial.println(moistureLevel);
-  
-
 
   if (moistureLevel >= moistHigh){
      setTriLED(0, 255, 0); 
@@ -95,7 +113,11 @@ void loop() {
   } else {
      setTriLED(255, 0, 0); 
   }
-  
 
+  moistureLevel = moistureLevel / moistMax * 100.0;
+  Serial.print("MOIST: ");
+  Serial.println(moistureLevel);
   
 }
+
+
