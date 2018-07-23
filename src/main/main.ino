@@ -2,22 +2,29 @@
 // External libraries
 #include <SPI.h>
 #include <WiFi101.h>
-#include <LiquidCrystal.h>
+#include <MQTT.h>
 
-// TODO: https://github.com/arduino-libraries/NTPClient
-// TODO: https://www.arduino.cc/en/Reference/WiFi101OTA
+
+// TODO: https://io.adafruit.com/neozenith/dashboards/bonsai
 
 // Secure credentials
 #include "env.h"
 
+WiFiClient net;
+MQTTClient client;
+
 int lastConnectionTime = 0;
+int lastMeasurement = 0;
 int status = WL_IDLE_STATUS;
+
 float moistureLevel;
 float moistMax = 780.0; // ~ 3.7V 100% moisture, 
 float moistHigh = 585.0; // 75% moisture
 float moistLow = 390.0; // 50% moisture
 
 float temperature;
+
+int remotelight = LOW;
 
 void setTriLED(int red, int green, int blue){
 
@@ -26,66 +33,85 @@ void setTriLED(int red, int green, int blue){
     analogWrite(A5, blue);   // B
 }
 
+void connectWiFi(){
+  Serial.print("Attempting to connect to SSID:"); 
+  Serial.println(ssid);  
+  while (WiFi.status() != WL_CONNECTED){
+    status = WiFi.begin(ssid, password);
+
+    delay(5000);
+  }
+  
+  
+  Serial.println("WiFi Connected!");
+  Serial.print("SSID: "); Serial.println(WiFi.SSID());
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP: ");   Serial.println(ip);
+}
+
+void logWifi(){
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");  
+}
 /*__________________________________________________________SETUP__________________________________________________________*/
+
+void connectMQTT(){
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  Serial.print("\nconnecting...");
+  while (!client.connect("Arduino MKR 1000", IO_USERNAME, IO_KEY)) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  Serial.println("\nconnected!");
+
+  client.subscribe("neozenith/feeds/bonsai.remotelight");
+  
+}
+
+
 // the setup function runs once when you press reset or power the board
 void setup() {
   
-  // initialize digital pin LED_BUILTIN as an output.
+  Serial.begin(115200);
+  Serial.println("SETUP");
+
+// initialize digital pin LED_BUILTIN as an output.
   setTriLED(255, 0, 255);
   pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(A0, INPUT);
   pinMode(A1, INPUT);
-  Serial.begin(115200);
-
-  pinMode(12, OUTPUT);
-  pinMode(11, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  LiquidCrystal lcd(12, 11, 6, 7, 8, 9);
-  // Switch on the LCD screen
-  lcd.begin(16, 2);
-  // Print these words to my LCD screen
-  lcd.print("Starting up...");
-
-  while (status != WL_CONNECTED){
-    Serial.print("Attempting to connect to SSID:"); 
-    lcd.print("Wifi:");
-    Serial.println(ssid);  
-    status = WiFi.begin(ssid, password);
-
-    // Wait 10 sec to connect
-    delay(10000);
-  }
-  setTriLED(0, 255, 255);
-  delay(500);
+  pinMode(A2, INPUT);
   
-  Serial.println("WiFi Connected!");
-	Serial.print("SSID: ");	Serial.println(WiFi.SSID());
-  IPAddress ip = WiFi.localIP();
-	Serial.print("IP: ");		Serial.println(ip);
+  pinMode(0, INPUT_PULLUP);
+  pinMode(1, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  
+  pinMode(5, OUTPUT);
+
+  Serial.println("Pin setup complete.");
+
+  connectWiFi(); 
+  
+  client.begin("io.adafruit.com", net);
+  client.onMessage(messageReceived);
+  
+  
   
 }
 
 /*__________________________________________________________LOOP__________________________________________________________*/
 
-// the loop function runs over and over again forever
-void loop() {
-
-  int timestamp = millis();
-  Serial.print("Timestamp:"); Serial.println(timestamp);
-
-  long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.print(rssi);
-  Serial.println(" dBm");
-  
-  // Create a 'heart beat' for when readings are taken.
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(500);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  delay(5000);                       // wait for a second
-
+float measureTemperature(){
   // ------------------------------------------------------------
   // TEMPERATURE
   // ------------------------------------------------------------
@@ -96,28 +122,87 @@ void loop() {
   // now print out the temperature
   float temperature = (voltage - 0.5) * 100 ;  //converting from 10 mv per degree wit 500 mV offset
                                                //to degrees ((voltage - 500mV) times 100)
-  Serial.print("TEMP : ");
-  Serial.println(temperature);
-  
+  return temperature;
+}
 
+float measureMoisture(){
   // ------------------------------------------------------------
   // MOISTURE
   // ------------------------------------------------------------
   float reading = analogRead(A0);
   moistureLevel = (reading);
 
-  if (moistureLevel >= moistHigh){
-     setTriLED(0, 255, 0); 
-  } else if ( moistureLevel >= moistLow && moistureLevel < moistHigh) {
-     setTriLED(0, 0, 255); 
+  moistureLevel = moistureLevel / moistMax * 100.0;
+  
+  return moistureLevel;
+}
+
+float measureLight(){
+  return analogRead(A2);
+}
+
+void messageReceived(String &topic, String &payload) {
+  Serial.println("incoming: " + topic + " - " + payload);
+  if (topic == "neozenith/feeds/bonsai.remotelight"){
+    mqttHandleRemoteLight(payload);
+  }
+  
+}
+
+void mqttHandleRemoteLight(String& payload){
+  if (payload == "1"){
+    remotelight = HIGH;  
   } else {
-     setTriLED(255, 0, 0); 
+    remotelight = LOW;
+  }
+}
+
+// the loop function runs over and over again forever
+void loop() {
+
+  int timestamp = millis();
+
+  client.loop();
+
+  if (!client.connected()) {
+    connectMQTT();
   }
 
-  moistureLevel = moistureLevel / moistMax * 100.0;
-  Serial.print("MOIST: ");
-  Serial.println(moistureLevel);
+  int button0 = digitalRead(0);
+  int button1 = digitalRead(1);
+  int button2 = digitalRead(3);
+  int button3 = digitalRead(4);
+
+  digitalWrite(5, remotelight);  
+  setTriLED(255 - button1*255, 255 - button2*255, 255 - button3*255);
+
   
+    
+  if (timestamp - lastMeasurement > 30000) {
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    
+    float temperature = measureTemperature();
+    float moisture = measureMoisture();
+    float light = measureLight();
+
+    Serial.print("Timestamp:"); Serial.println(timestamp);
+    Serial.print("TEMP : ");
+    Serial.println(temperature);
+    client.publish("neozenith/feeds/bonsai.temperature", String(temperature));
+    Serial.print("MOIST: ");
+    Serial.println(moisture);  
+    client.publish("neozenith/feeds/bonsai.moisture", String(moisture));
+    Serial.print("LIGHT: ");
+    Serial.println(light);  
+//    client.publish("bonsai.light", light);
+      logWifi();
+
+    lastMeasurement = timestamp;
+  }
+  
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  
+
 }
 
 
