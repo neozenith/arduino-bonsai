@@ -3,9 +3,20 @@
 #include <SPI.h>
 #include <WiFi101.h>
 #include <MQTT.h>
+#include "DHT.h"
+//#include "ArduinoLowPower.h"
 
 
-// TODO: https://io.adafruit.com/neozenith/dashboards/bonsai
+#define DHTPIN 7     // what digital pin we're connected to
+#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+DHT dht(DHTPIN, DHTTYPE);
+
+// TODO: Drive pump 
+//        https://www.arduino.cc/documents/datasheets/H-bridge_motor_driver.PDF
+// TODO: Battery levels as measurements
+//        https://github.com/rlogiacco/BatterySense
+
+// https://io.adafruit.com/neozenith/dashboards/bonsai
 
 // Secure credentials
 #include "env.h"
@@ -15,6 +26,7 @@ MQTTClient client;
 
 int lastConnectionTime = 0;
 int lastMeasurement = 0;
+int interval = 60000;
 int status = WL_IDLE_STATUS;
 
 float moistureLevel;
@@ -73,6 +85,7 @@ void connectMQTT(){
   Serial.println("\nconnected!");
 
   client.subscribe("neozenith/feeds/bonsai.remotelight");
+  client.subscribe("neozenith/feeds/bonsai.measurement-interval");
   
 }
 
@@ -95,14 +108,18 @@ void setup() {
   pinMode(1, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
-  
+
+  pinMode(7, INPUT);
+
   pinMode(5, OUTPUT);
+
+  dht.begin();
 
   Serial.println("Pin setup complete.");
 
   connectWiFi(); 
   
-  client.begin("io.adafruit.com", net);
+  client.begin(AIO_SERVER, AIO_SERVERPORT, net);
   client.onMessage(messageReceived);
   
   
@@ -125,6 +142,14 @@ float measureTemperature(){
   return temperature;
 }
 
+float measureDHT(){
+  // ------------------------------------------------------------
+  // DHT - Digital Humidity and Temperature
+  // ------------------------------------------------------------
+    
+  return 0;
+}
+
 float measureMoisture(){
   // ------------------------------------------------------------
   // MOISTURE
@@ -137,14 +162,27 @@ float measureMoisture(){
   return moistureLevel;
 }
 
-float measureLight(){
-  return analogRead(A2);
+float measureUVLight(){
+  int sensorValue;
+  int analogValue = analogRead(A2);//connect UV sensors to Analog 0    
+  if (analogValue<20)
+  {
+    sensorValue = 0;
+  }
+  else
+  {
+    sensorValue = 0.05*analogValue-1;
+  }
+  return analogValue;
 }
 
 void messageReceived(String &topic, String &payload) {
   Serial.println("incoming: " + topic + " - " + payload);
   if (topic == "neozenith/feeds/bonsai.remotelight"){
     mqttHandleRemoteLight(payload);
+  }
+  if (topic == "neozenith/feeds/bonsai.measurement-interval"){
+    mqttHandleMeasurementInterval(payload);
   }
   
 }
@@ -155,6 +193,9 @@ void mqttHandleRemoteLight(String& payload){
   } else {
     remotelight = LOW;
   }
+}
+void mqttHandleMeasurementInterval(String& payload){
+  interval = payload.toInt() * 1000; //ms
 }
 
 // the loop function runs over and over again forever
@@ -176,32 +217,50 @@ void loop() {
   digitalWrite(5, remotelight);  
   setTriLED(255 - button1*255, 255 - button2*255, 255 - button3*255);
 
-  
-    
-  if (timestamp - lastMeasurement > 30000) {
+  if (timestamp - lastMeasurement > interval) {
     digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
     
     float temperature = measureTemperature();
     float moisture = measureMoisture();
-    float light = measureLight();
+    float uvlight = measureUVLight();
+    float dht22_h = dht.readHumidity();
+    float dht22_t = dht.readTemperature();
 
     Serial.print("Timestamp:"); Serial.println(timestamp);
     Serial.print("TEMP : ");
     Serial.println(temperature);
     client.publish("neozenith/feeds/bonsai.temperature", String(temperature));
+    
+    Serial.print("DHT22 Temp: ");
+    Serial.println(dht22_t);
+    if (!isnan(dht22_t)){
+      client.publish("neozenith/feeds/bonsai.dht22-temperature", String(dht22_t));
+    }
+    
+    
+    Serial.print("DHT22 Humidity: ");
+    Serial.println(dht22_h);
+    if (!isnan(dht22_t)){
+      client.publish("neozenith/feeds/bonsai.dht22-humidity", String(dht22_h));
+    }
+    
+    
     Serial.print("MOIST: ");
     Serial.println(moisture);  
     client.publish("neozenith/feeds/bonsai.moisture", String(moisture));
-    Serial.print("LIGHT: ");
-    Serial.println(light);  
-//    client.publish("bonsai.light", light);
+    
+    Serial.print("UV LIGHT: ");
+    Serial.println(uvlight);  
+    client.publish("neozenith/feeds/bonsai.uvlight", String(uvlight));
       logWifi();
 
     lastMeasurement = timestamp;
   }
   
   digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  
+
+  //LowPower.sleep(2000);
+  //delay(2000);
 
 }
 
