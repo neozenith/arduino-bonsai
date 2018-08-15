@@ -11,6 +11,26 @@
 #define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 DHT dht(DHTPIN, DHTTYPE);
 
+#define TriLED_RED 10
+#define TriLED_GREEN 12
+#define TriLED_BLUE 11
+
+#define PIN_REMOTE_LIGHT 9
+
+#define Motor1_EN 0
+#define Motor1_FWD 2 // PWM Pin
+#define Motor1_REV 3 // PWM Pin
+
+#define Motor2_EN 1
+#define Motor2_FWD 4 // PWM Pin
+#define Motor2_REV 5 // PWM Pin
+
+// Push Buttons
+#define pb0 14
+#define pb1 13
+#define pb2 8
+
+
 // TODO: Drive pump
 //        https://www.arduino.cc/documents/datasheets/H-bridge_motor_driver.PDF
 // TODO: Battery levels as measurements
@@ -29,14 +49,14 @@ int lastMeasurement = 0;
 int interval = 60000;
 int status = WL_IDLE_STATUS;
 
+int motor = 0;
+int motorSpeed = 0;
 int remotelight = LOW;
 
 void setTriLED(int red, int green, int blue) {
-
-  //TODO: move to digital pins to free up analog inputs.
-  digitalWrite(11, red);   // R
-  digitalWrite(10, green); // G
-  digitalWrite(9, blue);   // B
+  digitalWrite(TriLED_RED, red);   // R
+  digitalWrite(TriLED_GREEN, green); // G
+  digitalWrite(TriLED_BLUE, blue);   // B
 }
 
 void connectWiFi() {
@@ -91,55 +111,81 @@ void publishInitialInterval() {
   client.publish("neozenith/feeds/bonsai.measurement-interval", String(interval / 1000));
 }
 
+void setMotorSpeed(int motor, int speedFwd, int speedRev){
+  if (motor == 1){
+    digitalWrite(Motor1_EN, HIGH);
+    analogWrite(Motor1_FWD, speedFwd);
+    analogWrite(Motor1_REV, speedRev);
+  
+  }
+
+  if (motor == 2){
+    digitalWrite(Motor2_EN, HIGH);
+    analogWrite(Motor2_FWD, speedFwd);
+    analogWrite(Motor2_REV, speedRev);
+  }
+  
+}
+
 // the setup function runs once when you press reset or power the board
 void setup() {
+
+ //L293D H-Bridge Motor Control Chip
+  pinMode(Motor1_EN, OUTPUT); // Motor 1 EN
+  pinMode(Motor1_FWD, OUTPUT); // Motor 1 Forward
+  pinMode(Motor1_REV, OUTPUT); // Motor 1 Reverse
+
+  pinMode(Motor2_EN, OUTPUT); // Motor 2 EN
+  pinMode(Motor2_FWD, OUTPUT); // Motor 2 Forward
+  pinMode(Motor2_REV, OUTPUT); // Motor 2 Reverse
+
+  // Ensure motors are stationary as soon as possible.
+  setMotorSpeed(1, 0, 0);
+  setMotorSpeed(2, 0, 0);
 
   Serial.begin(115200);
   Serial.println("SETUP");
 
   // TriLED
-  pinMode(11, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(9, OUTPUT);
+  pinMode(TriLED_RED, OUTPUT);
+  pinMode(TriLED_GREEN, OUTPUT);
+  pinMode(TriLED_BLUE, OUTPUT);
   
-  int pause = 300;
-  setTriLED(HIGH, LOW, LOW);
-  delay(pause);
-  setTriLED(LOW, HIGH, LOW);
-  delay(pause);
-  setTriLED(LOW, LOW, HIGH);
-  delay(pause);
-  setTriLED(LOW, HIGH, HIGH);
-  delay(pause);
-  setTriLED(HIGH, HIGH, LOW);
-  delay(pause);
-  setTriLED(HIGH, LOW, HIGH);
-
-
+  // Builtin LED
   pinMode(LED_BUILTIN, OUTPUT);
 
   // Sensors
+  // TODO: Convert to declared variable or #define
   pinMode(A0, INPUT); // Moisture A
-  pinMode(A1, INPUT); // TMP36
+  pinMode(A1, INPUT); // Moisture B
   pinMode(A2, INPUT); // Phototransistor
-  pinMode(A3, INPUT); // Battery Sensor
-  pinMode(A4, INPUT); // Moisture B
-
-  // Push Buttons
-  pinMode(0, INPUT_PULLUP);
-
-  pinMode(1, INPUT_PULLUP);
-  pinMode(3, INPUT_PULLUP);
-  pinMode(4, INPUT_PULLUP);
-
-  // LED
-  pinMode(5, OUTPUT);
+  pinMode(A3, INPUT); // TMP36
+  pinMode(A4, INPUT); // Battery Sensor
 
   //DHT22
-  pinMode(7, INPUT);
+  pinMode(DHTPIN, INPUT);
 
+  // LED
+  pinMode(PIN_REMOTE_LIGHT, OUTPUT);
+
+  // Push buttons
+  pinMode(pb0, INPUT_PULLUP);
+  pinMode(pb1, INPUT_PULLUP);
+  pinMode(pb2, INPUT_PULLUP);
   
 
+  int pause = 300;
+  setTriLED(HIGH, LOW, LOW); // RED
+  delay(pause);
+  setTriLED(LOW, HIGH, LOW); // GREEN
+  delay(pause);
+  setTriLED(LOW, LOW, HIGH); // BLUE
+  delay(pause);
+  setTriLED(LOW, HIGH, HIGH); // AQUA
+  delay(pause);
+  setTriLED(HIGH, HIGH, LOW); // YELLOW
+  delay(pause);
+  setTriLED(HIGH, LOW, HIGH);
 
   // DHT: Digital Humidity and Temperature
   dht.begin();
@@ -163,7 +209,7 @@ float measureTemperature() {
   // http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Sensors/Temp/TMP35_36_37.pdf
   // ------------------------------------------------------------
   // converting that reading to voltage, for 3.3v arduino use 3.3
-  float voltage = analogRead(A1) * 3.3;
+  float voltage = analogRead(A3) * 3.3;
   voltage /= 1024.0;
 
   // now print out the temperature
@@ -201,7 +247,7 @@ float measureBattery() {
   // BATTERY
   // Using 10k + 10k voltage divider on 3.7V LiPo
   // ------------------------------------------------------------
-  int analogValue = analogRead(A3);
+  int analogValue = analogRead(A4);
   float sensorValue = analogValue / 1024.0 * 3.3 * 2.0;
   return sensorValue;
 }
@@ -239,26 +285,63 @@ void loop() {
     connectMQTT();
   }
 
-  boolean button0 = digitalRead(0);
-  if (button0 == LOW && remotelight == HIGH) {
-
-    Serial.println("reset remote light");
-    remotelight = LOW;
-    client.publish("neozenith/feeds/bonsai.remotelight", 0);
+  boolean button0 = digitalRead(pb0);
+  if (button0 == LOW) {
+    
+    while (button0 == LOW){
+      button0 = digitalRead(pb0);
+    }
+    motor = (motor + 1) % 3;
   }
-  digitalWrite(5, remotelight);
 
-  int button1 = digitalRead(1);
-  int button2 = digitalRead(3);
-  int button3 = digitalRead(4);
-  setTriLED(!button1, !button2, !button3);
+  boolean button1 = digitalRead(pb1);
+  if (button1 == LOW) {
+    
+    while (button1 == LOW){
+      button1 = digitalRead(pb1);
+    }
+    motorSpeed = motorSpeed + 64;
+    
+    if (motorSpeed > 255) motorSpeed = 255;
+  }
+
+  boolean button2 = digitalRead(pb2);
+  if (button2 == LOW) {
+    
+    while (button2 == LOW){
+      button2 = digitalRead(pb2);
+    }
+    motorSpeed = motorSpeed - 64;
+    
+    if (motorSpeed <= 0) motorSpeed = 0;
+  }
+  
+  digitalWrite(PIN_REMOTE_LIGHT, remotelight);
+
+  
+  
+  if (motor == 1) {
+    setTriLED(LOW, HIGH, LOW);
+    setMotorSpeed(1, motorSpeed, 0);
+    setMotorSpeed(2, 0, 0);
+  }
+  else if (motor == 2) {
+    setTriLED(LOW, LOW, HIGH);
+    setMotorSpeed(1, 0, 0);
+    setMotorSpeed(2, motorSpeed, 0);
+  }
+  else {
+    setTriLED(LOW, LOW, LOW);
+    setMotorSpeed(1, 0, 0);
+    setMotorSpeed(2, 0, 0);
+  }
 
   if (timestamp - lastMeasurement > interval) {
     digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
 
     float temperature = measureTemperature();
     float moistureA = measureMoisture(A0);
-    float moistureB = measureMoisture(A4);
+    float moistureB = measureMoisture(A1);
     float ambientlight = measureLight();
     float battery = measureBattery();
     float dht22_h = dht.readHumidity();
@@ -304,9 +387,6 @@ void loop() {
   }
 
   digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-
-  //LowPower.sleep(2000);
-  //delay(2000);
 
 }
 
