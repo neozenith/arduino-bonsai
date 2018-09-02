@@ -28,34 +28,31 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 	align="right" 
 	width="192px" 
 />
-<a href="https://wwVw.youtube.com/watch?v=3YXw3lbqjwk">
-  <img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
-  <br>
-  Image links to YouTube
-</a>
+<img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
+
 ----
 
 ## Charles Boyle - Ficus
 
-<img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
 <img 
 	src="images/charles-ficus.jpg" 
 	alt="Charles the ficus bonsai tree" 
 	align="right" 
 	width="192px" 
 />
+<img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
 
 ----
 
 ## Gina Linetti - Serissa Japonica
 
-<img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
 <img 
 	src="images/gina-serissa.jpg" 
 	alt="Gina the Serissa Japonica bonsai tree" 
 	align="right" 
 	width="192px" 
 />
+<img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
 
 ----
 
