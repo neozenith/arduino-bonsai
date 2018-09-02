@@ -25,10 +25,11 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 <img 
 	src="images/terry-juniperus.jpg" 
 	alt="Terry Juniperus bonsai tree" 
-	align="right" 
 	width="192px" 
 />
 <img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
+
+Sadly Terry didn't make it.
 
 ----
 
@@ -37,7 +38,6 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 <img 
 	src="images/charles-ficus.jpg" 
 	alt="Charles the ficus bonsai tree" 
-	align="right" 
 	width="192px" 
 />
 <img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
@@ -49,10 +49,11 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 <img 
 	src="images/gina-serissa.jpg" 
 	alt="Gina the Serissa Japonica bonsai tree" 
-	align="right" 
 	width="192px" 
 />
 <img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
+
+This Gina was not hit by a bus but eaten by my burmese... but she is regrowing.
 
 ----
 
