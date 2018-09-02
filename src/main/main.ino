@@ -8,6 +8,7 @@
 
 #include "DHT.h"
 // https://github.com/adafruit/DHT-sensor-library
+// https://github.com/adafruit/Adafruit_Sensor
 
 //#include "ArduinoLowPower.h"
 
