@@ -81,7 +81,22 @@ This Gina was not hit by a bus but eaten by my burmese... but she is regrowing.
 
 [FirmwareUpdater](https://www.arduino.cc/en/Tutorial/FirmwareUpdater)
 
-# Dependencies
+## `env.h`
+
+Example:
+
+```
+//WIFI
+const char* ssid = "";
+const char* password = "";
+//MQTT
+const char* IO_USERNAME = "neozenith";
+const char* IO_KEY = "";
+const char* AIO_SERVER = "https://io.adafruit.com";
+const int AIO_SERVERPORT = 8883;
+```
+
+## Dependencies
 
  - https://github.com/256dpi/arduino-mqtt by Joël Gähwiler
  - https://github.com/adafruit/DHT-sensor-library
