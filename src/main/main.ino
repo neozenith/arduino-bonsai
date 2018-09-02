@@ -2,8 +2,13 @@
 // External libraries
 #include <SPI.h>
 #include <WiFi101.h>
+
 #include <MQTT.h>
+// https://github.com/256dpi/arduino-mqtt by Joël Gähwiler
+
 #include "DHT.h"
+// https://github.com/adafruit/DHT-sensor-library
+
 //#include "ArduinoLowPower.h"
 
 
@@ -389,5 +394,3 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
 
 }
-
-

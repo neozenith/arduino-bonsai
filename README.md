@@ -22,18 +22,20 @@ I chose the Arduino MKR 1000 since it came in a beginners bundle, it is a very
 small form factor compared to the UNO or the Raspberry Pi and it came with a WiFi
 shield builtin.
 
-I picked the Juniperus variety since they are evergreen and are the the most iconic 
-foliage coming from the coniferus family.
+The naming convention comes from characters from [Brooklyn Nine-Nine](http://www.imdb.com/title/tt2467372/).
 
-I have named it Terry after Terry Jeffords from [Brooklyn Nine-Nine](http://www.imdb.com/title/tt2467372/).
-
-<a href="https://www.youtube.com/watch?v=3YXw3lbqjwk">
-<img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
-<br>
-Image links to YouTube
+~~Terry Jeffords - Juniperus~~
+<a href="https://wwVw.youtube.com/watch?v=3YXw3lbqjwk">
+  <img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
+  <br>
+  Image links to YouTube
 </a>
 
-This also gives me a naming convention for when I want to add more plants to my collection.
+Charles Boyle - Ficus
+<img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
+
+Gina Linetti - Serissa Japonica
+<img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
 
 ----
 
