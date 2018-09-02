@@ -29,7 +29,7 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 />
 <img src="images/terry.gif" alt="Terry Jeffords: This is taking too long. I'm going to miss the farmers markets" />
 
-Sadly Terry didn't make it.
+Sadly Terry didn't make it. I learnt too late that Juniperus are outdoor plants.
 
 ----
 
@@ -80,6 +80,12 @@ This Gina was not hit by a bus but eaten by my burmese... but she is regrowing.
 1. Select latest WiFi firmware and Update Firmware.
 
 [FirmwareUpdater](https://www.arduino.cc/en/Tutorial/FirmwareUpdater)
+
+# Dependencies
+
+ - https://github.com/256dpi/arduino-mqtt by Joël Gähwiler
+ - https://github.com/adafruit/DHT-sensor-library
+ - https://github.com/adafruit/Adafruit_Sensor
 
 ----
 
