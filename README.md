@@ -20,7 +20,7 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
 
 ----
 
-## ~~Terry Jeffords - Juniperus~~
+## ~~#1 Terry Jeffords - Juniperus~~
 
 <img 
 	src="images/terry-juniperus.jpg" 
@@ -33,18 +33,7 @@ Sadly Terry didn't make it.
 
 ----
 
-## Charles Boyle - Ficus
-
-<img 
-	src="images/charles-ficus.jpg" 
-	alt="Charles the ficus bonsai tree" 
-	width="192px" 
-/>
-<img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
-
-----
-
-## Gina Linetti - Serissa Japonica
+## #2 Gina Linetti - Serissa Japonica
 
 <img 
 	src="images/gina-serissa.jpg" 
@@ -54,6 +43,18 @@ Sadly Terry didn't make it.
 <img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
 
 This Gina was not hit by a bus but eaten by my burmese... but she is regrowing.
+
+----
+
+## #3 Charles Boyle - Ficus
+
+<img 
+	src="images/charles-ficus.jpg" 
+	alt="Charles the ficus bonsai tree" 
+	width="192px" 
+/>
+<img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
+
 
 ----
 
