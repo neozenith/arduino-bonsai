@@ -18,7 +18,8 @@ shield builtin.
 
 The naming convention comes from characters from [Brooklyn Nine-Nine](http://www.imdb.com/title/tt2467372/).
 
-~~Terry Jeffords - Juniperus~~
+----
+## ~~Terry Jeffords - Juniperus~~
 <img 
 	src="images/terry-juniperus.jpg" 
 	alt="Terry the 2 year old Juniperus bonsai tree" 
@@ -30,8 +31,8 @@ The naming convention comes from characters from [Brooklyn Nine-Nine](http://www
   <br>
   Image links to YouTube
 </a>
-
-Charles Boyle - Ficus
+----
+## Charles Boyle - Ficus
 <img src="images/charles.gif" alt="Charles Boyle: Eyes up here, Gina. I'm more than just a piece of ass" />
 <img 
 	src="images/terry-juniperus.jpg" 
@@ -40,7 +41,8 @@ Charles Boyle - Ficus
 	width="384px" 
 />
 
-Gina Linetti - Serissa Japonica
+----
+## Gina Linetti - Serissa Japonica
 <img src="images/gina.gif" alt="Gina Linetti: What am I always telling you guys? I'm royalty. " />
 <img 
 	src="images/terry-juniperus.jpg" 
