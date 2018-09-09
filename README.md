@@ -84,7 +84,7 @@ This Gina was not hit by a bus but eaten by my burmese... but she is regrowing.
 ## `env.h`
 
 Example:
-
+https://learn.adafruit.com/welcome-to-adafruit-io/mqtt-api-documentation-2#connection-details-13-2
 ```
 //WIFI
 const char* ssid = "";
@@ -92,8 +92,8 @@ const char* password = "";
 //MQTT
 const char* IO_USERNAME = "neozenith";
 const char* IO_KEY = "";
-const char* AIO_SERVER = "https://io.adafruit.com";
-const int AIO_SERVERPORT = 8883;
+const char* AIO_SERVER = "io.adafruit.com";
+const int AIO_SERVERPORT = 1883;
 ```
 
 ## Dependencies

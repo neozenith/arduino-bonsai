@@ -50,8 +50,8 @@ DHT dht(DHTPIN, DHTTYPE);
 WiFiClient net;
 MQTTClient client;
 
-int lastConnectionTime = 0;
-int lastMeasurement = 0;
+long lastConnectionTime = 0;
+long lastMeasurement = 0;
 int interval = 60000;
 int status = WL_IDLE_STATUS;
 
@@ -283,7 +283,7 @@ void mqttHandleMeasurementInterval(String& payload) {
 // the loop function runs over and over again forever
 void loop() {
 
-  int timestamp = millis();
+  long timestamp = millis();
 
   client.loop();
 
